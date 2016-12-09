@@ -1,0 +1,42 @@
+{
+    "1": {
+    	"age" : "19",
+    	"name" : "Sam",
+    	"location" : "San Diego, CA",
+    	"email" : "runnergirlsam@gmail.com",
+    	"political_affiliation" : "undecided",
+    	"region" : "west"
+    },
+    "2": {
+    	"age" : "16",
+    	"name" : "Jordan",
+    	"location" : "Queens, NY",
+    	"email" : "harejordan12@gmail.com",
+    	"political_affiliation" : "liberal",
+    	"region" : "east"
+    },
+    "3": {
+    	"age" : "17",
+    	"name" : "Max",
+    	"location" : "Fort Lauderdale, FL",
+    	"email" : "max.hace.todo@gmail.com",
+    	"political_affiliation" : "undecided",
+    	"region" : "south"
+    },
+    "4": {
+    	"age" : "15",
+    	"name" : "John",
+    	"location" : "Columbus, OH",
+    	"email" : "max.hace.todo@gmail.com",
+    	"political_affiliation" : "republican",
+    	"region" : "central"
+    },
+    "5": {
+    	"age" : "15",
+    	"name" : "John",
+    	"location" : "Columbus, OH",
+    	"email" : "max.hace.todo@gmail.com",
+    	"political_affiliation" : "conservative",
+    	"region" : "central"
+    }
+}
