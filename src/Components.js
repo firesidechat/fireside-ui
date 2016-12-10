@@ -7,13 +7,13 @@ class Welcome extends Component{
   constructor(props){
     super(props);
     this.state = {
-      loggedIn : false,
+      signedIn : false,
       user : null
     }
     this._getUserProfile = this._getUserProfile.bind(this);
   }
 
-  _getUserProfile(){
+  _getUserProfile(value){
     /* const requestUrl = './users.json';
     $.ajax({
       type: "GET",
@@ -27,8 +27,8 @@ class Welcome extends Component{
       }
     }); */
     this.setState({
-      user : testData["1"],
-      loggedIn : true
+      user : testData[value],
+      signedIn : true
     });
   }
 
@@ -38,7 +38,7 @@ class Welcome extends Component{
 
   render(){
     let display = null;
-    if(this.state.loggedIn && this.state.user){
+    if(this.state.signedIn && this.state.user){
       //display = <Profile userId={this.state.userId}/>
       display = (
         <div className="Profile">
@@ -54,9 +54,13 @@ class Welcome extends Component{
       );
     } else {
       display = (
-        <div>You should log in!</div>
+        <div>
+          You should sign in!
+          <SigninForm getUserProfile={this._getUserProfile} />
+        </div>
       );
     }
+
     return (
       <div className="Welcome">
       <p>Welcome to Fireside!</p>
@@ -67,8 +71,48 @@ class Welcome extends Component{
   }
 }
 
-/*
-class ProfileBox extends Component {
+class SigninForm extends Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      value : "1"
+    }
+    this._handleSubmit = this._handleSubmit.bind(this);
+    this._handleChange = this._handleChange.bind(this);
+  }
+
+  _handleChange(event){
+    this.setState({
+      value : event.target.value
+    });
+  }
+
+  _handleSubmit(event) {
+    alert(`You signed in as: ${this.state.value}!`);
+    event.preventDefault();
+
+    this.props.getUserProfile(this.state.value);
+  }
+
+  render(){
+    return(
+      <form onSubmit={this._handleSubmit}>
+        <label>
+          Sign in to get started:
+          <select value={this.state.value} onChange={this._handleChange}>
+            <option value="1">User1</option>
+            <option value="2">User2</option>
+            <option value="3">User3</option>
+            <option value="4">User4</option>
+          </select>
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+
+/* class ProfileBox extends Component {
   constructor(props){
     super(props);
     this.state = {
