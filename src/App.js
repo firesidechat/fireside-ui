@@ -51,7 +51,7 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
         {locationElem}
-      <Welcome />
+      <Welcome curLocation={this.state.location}/>
       </div>
     );
   }
