@@ -8,31 +8,22 @@ class Welcome extends Component{
     super(props);
     this.state = {
       signedIn : false,
-      user : null
+      user : null,
+      neighbor : null,
+      selectedNeighbor : false
     }
     this._createUserProfile = this._createUserProfile.bind(this);
+    this._startConvo = this._startConvo.bind(this);
   }
 
   _createUserProfile(name,age,email,location,political_affiliation){
-    /* const requestUrl = './users.json';
-    $.ajax({
-      type: "GET",
-      url: requestUrl,
-      success: (response) => {
-        this.setState({
-          user : response,
-          loggedIn : true
-        });
-        console.log(testData);
-      }
-    }); */
-    alert({
-        name : name,
-        age : age,
-        email : email,
-        location : location,
-        political_affiliation : political_affiliation
-      });
+    /* alert(`{
+        name : ${name},
+        age : ${age},
+        email : ${email},
+        location : ${location},
+        political_affiliation : ${political_affiliation}
+      }`); */
     this.setState({
       user : {
         name : name,
@@ -45,8 +36,31 @@ class Welcome extends Component{
     });
   }
 
+  _startConvo(neighborId){
+    const neighborObject = testData[neighborId];
+    console.log(neighborObject);
+    //alert(neighborObject);
+    this.setState({
+      neighbor : neighborObject,
+      selectedNeighbor : true
+    }); 
+    /* const requestUrl = './users.json';
+    $.ajax({
+      type: "GET",
+      url: requestUrl,
+      success: (response) => {
+         this.setState({
+          user : response,
+          loggedIn : true
+        }); 
+        console.log(response);
+      }
+    }); */
+  }
+
   render(){
     let display = null;
+    let displayNeighbor = null;
     if(this.state.signedIn && this.state.user){
       //display = <Profile userId={this.state.userId}/>
       display = (
@@ -59,6 +73,7 @@ class Welcome extends Component{
             <li>Email: {this.state.user.email}</li>
             <li>Political Affiliation: {this.state.user.political_affiliation}</li>
           </ul>
+          <ConvoPortal startConvo={this._startConvo}/>
         </div>
       );
     } else {
@@ -70,10 +85,26 @@ class Welcome extends Component{
       );
     }
 
+    if(this.state.selectedNeighbor && this.state.neighbor){
+      displayNeighbor = (
+        <div className="Profile">
+          <h2 className="Profile-header">Neighbor Profile</h2>
+          <ul className="Profile-details">
+            <li>Age: {this.state.neighbor.age}</li>
+            <li>Name: {this.state.neighbor.name}</li>
+            <li>Location: {this.state.neighbor.location}</li>
+            <li>Email: {this.state.neighbor.email}</li>
+            <li>Political Affiliation: {this.state.neighbor.political_affiliation}</li>
+          </ul>
+        </div>
+      );
+    }
+
     return (
       <div className="Welcome">
       <p>Welcome to Fireside!</p>
       {display}
+      {displayNeighbor}
       </div>
     );
 
@@ -87,8 +118,8 @@ class SignupForm extends Component{
       name : '',
       age : '',
       email : '',
-      location : '',
-      political_affiliation : ''
+      location : this.props.location,
+      political_affiliation : 'Undecided'
     }
     this._handleSubmit = this._handleSubmit.bind(this);
     this._handleChange = this._handleChange.bind(this);
@@ -98,18 +129,16 @@ class SignupForm extends Component{
     this.setState({
       [event.target.name] : event.target.value
     });
-    console.log(this.state);
+    //console.log(this.state);
   }
 
   _handleSubmit(event) {
-    alert(`You signed in as: ${this.state.name}!`);
+    //alert(`You signed in as: ${this.state.name}!`);
     event.preventDefault();
 
     this.props.createUserProfile(
       this.state.name,this.state.age,this.state.email,this.state.location,this.state.political_affiliation
       );
-
-    //this.props.getUserProfile(this.state.value);
   }
 
   render(){
@@ -136,26 +165,29 @@ class ConvoPortal extends Component{
       neighborId : null
     }
     this._chooseNeighbor = this._chooseNeighbor.bind(this);
+    this._handleSubmit = this._handleSubmit.bind(this);
   }
 
   _chooseNeighbor(event){
+    event.preventDefault();
     this.setState({
       neighborId : event.target.value
     });
+    //alert(`You changed neighbor to: ${event.target.value}!`);
   }
 
   _handleSubmit(event) {
-    alert(`You chose to chat with: ${this.state.value}!`);
     event.preventDefault();
+    console.log(`You chose to chat with: ${this.state.neighborId}!`);
 
-    this.props.startConvo(this.state.value);
+    this.props.startConvo(this.state.neighborId);
   }
 
   render(){
     return(
       <form onSubmit={this._handleSubmit}>
         <label>
-          Sign in to get started:
+          Choose a neighbor to chat with:
           <select value={this.state.value} onChange={this._chooseNeighbor}>
             <option value="1">User1</option>
             <option value="2">User2</option>
